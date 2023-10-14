@@ -16,4 +16,6 @@ character will not be included in the line count.
         Count the bytes in a file
   -l file
         Count the number of lines in a file
+  -w file
+        Count the number of words in a file
 ```
