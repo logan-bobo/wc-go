@@ -9,4 +9,11 @@ of characters delimited by a ⟨newline⟩ character.  Characters beyond the fin
 character will not be included in the line count.
 ```
 
+## Functionality
 
+```
+  -c file
+        Count the bytes in a file
+  -l file
+        Count the number of lines in a file
+```
