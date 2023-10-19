@@ -8,9 +8,9 @@ import (
 func CountChars(fileName string) int {
 	var charCount int
 
-    bytesRead, _ := os.ReadFile(fileName)
-    fileContent := string(bytesRead)
-    lines := strings.Split(fileContent, "\n")
+	bytesRead, _ := os.ReadFile(fileName)
+	fileContent := string(bytesRead)
+	lines := strings.Split(fileContent, "\n")
 
 	for _, line := range lines {
 		arrLine := strings.Split(line, "")

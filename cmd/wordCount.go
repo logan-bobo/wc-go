@@ -31,7 +31,7 @@ func CountWords(fileName string) int {
 
 	file, err := os.Open(fileName)
 
-	if (err != nil) {
+	if err != nil {
 		panic(err)
 	}
 
@@ -42,7 +42,7 @@ func CountWords(fileName string) int {
 		line := scanner.Text()
 		line = strings.TrimSpace(line)
 
-		if (line != " ") {
+		if line != " " {
 			words := stripTabAndSpaceFromLine(line)
 
 			if words[0] != "" {
