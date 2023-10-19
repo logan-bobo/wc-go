@@ -26,13 +26,12 @@ func stripTabAndSpaceFromLine(line string) []string {
 	return flatWords
 }
 
-func WordCount(fileName string) int {
+func CountWords(fileName string) int {
 	var wordCount int
-	var lineCount int
 
 	file, err := os.Open(fileName)
 
-	if err != nil {
+	if (err != nil) {
 		panic(err)
 	}
 
@@ -43,12 +42,11 @@ func WordCount(fileName string) int {
 		line := scanner.Text()
 		line = strings.TrimSpace(line)
 
-		if line != " " {
+		if (line != " ") {
 			words := stripTabAndSpaceFromLine(line)
 
 			if words[0] != "" {
 				wordCount += len(words)
-				lineCount++
 			}
 		}
 	}

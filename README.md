@@ -18,4 +18,6 @@ character will not be included in the line count.
         Count the number of lines in a file
   -w file
         Count the number of words in a file
+  -m file
+        Count the number or characters in a file
 ```

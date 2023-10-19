@@ -14,6 +14,7 @@ func main() {
 	bytesFlag := flag.String("c", "", "Count the bytes in a file")
 	linesFlag := flag.String("l", "", "Count the number of lines in a file")
 	wordsFlag := flag.String("w", "", "Count the number of words in a file")
+	charFlag := flag.String("m", "", "Count the number of characters in a file")
 	flag.Parse()
 
 	// Return bytes in a file
@@ -33,7 +34,14 @@ func main() {
 	// Return the words in a file
 	if len(*wordsFlag) > 0 {
 		fileName = *wordsFlag
-		fileWords := cmd.WordCount(fileName)
+		fileWords := cmd.CountWords(fileName)
+		fmt.Println(" ", fileWords, fileName)
+	}
+
+	// Return the words in a file
+	if len(*charFlag) > 0 {
+		fileName = *charFlag
+		fileWords := cmd.CountChars(fileName)
 		fmt.Println(" ", fileWords, fileName)
 	}
 }
