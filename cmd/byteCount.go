@@ -1,17 +1,11 @@
 package cmd
 
-import (
-	"os"
-)
+func CountBytes(bytes []byte) int {
+	var byteCount int 
 
-func CountBytes(fileName string) int64 {
-	fileData, err := os.Stat(fileName)
-
-	if err != nil {
-		panic(err)
+	for i := 0; i < len(bytes); i++ {
+		byteCount++
 	}
 
-	fileSize := fileData.Size()
-
-	return fileSize
+	return byteCount
 }
