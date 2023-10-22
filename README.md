@@ -12,12 +12,14 @@ character will not be included in the line count.
 ## Functionality
 
 ```
-  -c file
-        Count the bytes in a file
-  -l file
-        Count the number of lines in a file
-  -w file
-        Count the number of words in a file
-  -m file
-        Count the number or characters in a file
+  -c 
+        Count the bytes in a file/stdin
+  -l 
+        Count the number of lines in a file/stdin
+  -w 
+        Count the number of words in a file/stdin
+  -m 
+        Count the number or characters in a file/stdin
+
+  call the binary with no flags to get the lines, words and bytes
 ```
