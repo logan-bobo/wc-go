@@ -1,24 +1,13 @@
 package cmd
 
-import (
-	"bufio"
-	"os"
-)
-
-func CountLines(fileName string) int {
+func CountLines(bytes []byte) int {
 	var lineCount int
 
-	file, err := os.Open(fileName)
-
-	if err != nil {
-		panic(err)
-	}
-
-	defer file.Close()
-
-	scanner := bufio.NewScanner(file)
-	for scanner.Scan() {
-		lineCount++
+	for _, byte := range bytes {
+		// The decimal representation of a UTF-8 newline is 10.
+		if byte == 10 {
+			lineCount++
+		}
 	}
 
 	return lineCount
