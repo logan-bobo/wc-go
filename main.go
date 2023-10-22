@@ -1,47 +1,74 @@
 package main
 
 import (
-	"flag"
 	"fmt"
+	"io"
+	"os"
 
 	"github.com/logan-bobo/wc-go/cmd"
 )
 
 func main() {
 	var fileName string
-	bytesFlag := flag.String("c", "", "Count the bytes from a file or stdin")
-	linesFlag := flag.String("l", "", "Count the number of lines in a file or stdin")
-	wordsFlag := flag.String("w", "", "Count the number of words in a file or stdin")
-	charFlag := flag.String("m", "", "Count the number of characters in a file or stdin")
-	flag.Parse()
+	var fileBytes []byte
+	var flag string
 
-	if len(*bytesFlag) > 0 {
-		fileName = *bytesFlag
-		fileBytes := cmd.FileToBytes(fileName)
+	legalFlags := [4]string{"-c", "-l", "-w", "-m"}
+
+	file := os.Stdin
+	fileInfo, err := file.Stat()
+	if err != nil {
+		panic(err)
+	}
+
+	size := fileInfo.Size()
+	if size > 0 {
+		fileBytes, _ = io.ReadAll(os.Stdin)
+		if len(os.Args) > 1 {
+			for _, legalFlag := range legalFlags {
+				if os.Args[1] == legalFlag {
+					flag = os.Args[1]
+				}
+			}
+		}
+
+	} else {
+		if len(os.Args) < 3 {
+			for _, legalFlag := range legalFlags {
+				if os.Args[1] == legalFlag {
+					panic("Flag set with no filename")
+				}
+			}
+			fileName = os.Args[1]
+			fileBytes = cmd.FileToBytes(fileName)
+		} else {
+			for _, legalFlag := range legalFlags {
+				if os.Args[1] == legalFlag {
+					flag = os.Args[1]
+					fileName = os.Args[2]
+					fileBytes = cmd.FileToBytes(fileName)
+				}
+			}
+		}
+	}
+
+	if flag == "-c" {
 		fileByteTotal := cmd.CountBytes(fileBytes)
 		fmt.Println(fileByteTotal, fileName)
 
-	} else if len(*linesFlag) > 0 {
-		fileName = *linesFlag
-		fileBytes := cmd.FileToBytes(fileName)
+	} else if flag == "-l" {
 		fileLines := cmd.CountLines(fileBytes)
 		fmt.Println(fileLines, fileName)
 
-	} else if len(*wordsFlag) > 0 {
-		fileName = *wordsFlag
-		fileBytes := cmd.FileToBytes(fileName)
+	} else if flag == "-w" {
 		fileWords := cmd.CountWords(fileBytes)
 		fmt.Println(fileWords, fileName)
 
-	} else if len(*charFlag) > 0 {
-		fileName = *charFlag
-		fileBytes := cmd.FileToBytes(fileName)
+	} else if flag == "-m" {
 		fileChars := cmd.CountChars(fileBytes)
 		fmt.Println(fileChars, fileName)
 
 	} else {
-		fileName := flag.Arg(0)
-		fileBytes := cmd.FileToBytes(fileName)
 		fileByteCount := cmd.CountBytes(fileBytes)
 		fileLines := cmd.CountLines(fileBytes)
 		fileWords := cmd.CountWords(fileBytes)
