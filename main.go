@@ -10,9 +10,9 @@ import (
 func main() {
 	var fileName string
 	bytesFlag := flag.String("c", "", "Count the bytes from a file or stdin")
-	linesFlag := flag.String("l", "", "Count the number of lines in a file")
-	wordsFlag := flag.String("w", "", "Count the number of words in a file")
-	charFlag := flag.String("m", "", "Count the number of characters in a file")
+	linesFlag := flag.String("l", "", "Count the number of lines in a file or stdin")
+	wordsFlag := flag.String("w", "", "Count the number of words in a file or stdin")
+	charFlag := flag.String("m", "", "Count the number of characters in a file or stdin")
 	flag.Parse()
 
 	if len(*bytesFlag) > 0 {
@@ -34,7 +34,8 @@ func main() {
 
 	} else if len(*charFlag) > 0 {
 		fileName = *charFlag
-		fileChars := cmd.CountChars(fileName)
+		fileBytes := cmd.FileToBytes(fileName)
+		fileChars := cmd.CountChars(fileBytes)
 		fmt.Println("  ", fileChars, fileName)
 
 	} else {

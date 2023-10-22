@@ -1,15 +1,13 @@
 package cmd
 
 import (
-	"os"
 	"strings"
 )
 
-func CountChars(fileName string) int {
+func CountChars(bytes []byte) int {
 	var charCount int
 
-	bytesRead, _ := os.ReadFile(fileName)
-	fileContent := string(bytesRead)
+	fileContent := string(bytes)
 	lines := strings.Split(fileContent, "\n")
 
 	for _, line := range lines {
