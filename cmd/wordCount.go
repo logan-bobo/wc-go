@@ -1,15 +1,13 @@
 package cmd
 
 import (
-	"bufio"
-	"os"
 	"strings"
 )
 
-func stripTabAndSpaceFromLine(line string) []string {
+func stripTabAndSpaceFromLine(text string) []string {
 	var flatWords []string
 
-	words := strings.Split(line, " ")
+	words := strings.Split(text, " ")
 	for _, word := range words {
 		tabInWord := strings.Contains(word, "	")
 		if tabInWord {
@@ -26,23 +24,16 @@ func stripTabAndSpaceFromLine(line string) []string {
 	return flatWords
 }
 
-func CountWords(fileName string) int {
+func CountWords(bytes []byte) int {
 	var wordCount int
 
-	file, err := os.Open(fileName)
+	fileContent := string(bytes)
+	text := strings.Split(fileContent, "\n")
 
-	if err != nil {
-		panic(err)
-	}
-
-	defer file.Close()
-
-	scanner := bufio.NewScanner(file)
-	for scanner.Scan() {
-		line := scanner.Text()
+	for _, line := range text {
 		line = strings.TrimSpace(line)
 
-		if line != " " {
+		if line != "" {
 			words := stripTabAndSpaceFromLine(line)
 
 			if words[0] != "" {
