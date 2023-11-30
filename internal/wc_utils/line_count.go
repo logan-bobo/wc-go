@@ -1,4 +1,4 @@
-package cmd
+package wcutils
 
 func CountLines(bytes []byte) int {
 	var lineCount int
