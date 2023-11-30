@@ -5,7 +5,7 @@ import (
 	"io"
 	"os"
 
-	"github.com/logan-bobo/wc-go/internal/wc_utils"
+	"github.com/logan-bobo/wc-go/internal/utils"
 )
 
 func main() {
@@ -40,38 +40,38 @@ func main() {
 				}
 			}
 			fileName = os.Args[1]
-			fileBytes = wcutils.FileToBytes(fileName)
+			fileBytes = utils.FileToBytes(fileName)
 		} else {
 			for _, legalFlag := range legalFlags {
 				if os.Args[1] == legalFlag {
 					flag = os.Args[1]
 					fileName = os.Args[2]
-					fileBytes = wcutils.FileToBytes(fileName)
+					fileBytes = utils.FileToBytes(fileName)
 				}
 			}
 		}
 	}
 
 	if flag == "-c" {
-		fileByteTotal := wcutils.CountBytes(fileBytes)
+		fileByteTotal := utils.CountBytes(fileBytes)
 		fmt.Println(fileByteTotal, fileName)
 
 	} else if flag == "-l" {
-		fileLines := wcutils.CountLines(fileBytes)
+		fileLines := utils.CountLines(fileBytes)
 		fmt.Println(fileLines, fileName)
 
 	} else if flag == "-w" {
-		fileWords := wcutils.CountWords(fileBytes)
+		fileWords := utils.CountWords(fileBytes)
 		fmt.Println(fileWords, fileName)
 
 	} else if flag == "-m" {
-		fileChars := wcutils.CountChars(fileBytes)
+		fileChars := utils.CountChars(fileBytes)
 		fmt.Println(fileChars, fileName)
 
 	} else {
-		fileByteCount := wcutils.CountBytes(fileBytes)
-		fileLines := wcutils.CountLines(fileBytes)
-		fileWords := wcutils.CountWords(fileBytes)
+		fileByteCount := utils.CountBytes(fileBytes)
+		fileLines := utils.CountLines(fileBytes)
+		fileWords := utils.CountWords(fileBytes)
 		fmt.Println(fileLines, fileWords, fileByteCount, fileName)
 	}
 }
