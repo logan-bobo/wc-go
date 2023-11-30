@@ -1,4 +1,4 @@
-package cmd
+package wcutils
 
 func CountBytes(bytes []byte) int {
 	var byteCount int
