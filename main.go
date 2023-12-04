@@ -7,7 +7,7 @@ import (
 	"strings"
 )
 
-func CountLines(bytes []byte) int {
+func countLines(bytes []byte) int {
 	var lineCount int
 
 	for _, byteDecimal := range bytes {
@@ -20,13 +20,13 @@ func CountLines(bytes []byte) int {
 	return lineCount
 }
 
-func CountBytes(bytes []byte) int {
+func countBytes(bytes []byte) int {
 	byteCount := len(bytes)
 
 	return byteCount
 }
 
-func CountChars(bytes []byte) int {
+func countChars(bytes []byte) int {
 	var charCount int
 
 	fileContent := string(bytes)
@@ -48,7 +48,7 @@ func CountChars(bytes []byte) int {
 	return charCount
 }
 
-func FileToBytes(fileName string) []byte {
+func fileToBytes(fileName string) []byte {
 	bytes, err := os.ReadFile(fileName)
 
 	if err != nil {
@@ -78,7 +78,7 @@ func stripTabAndSpaceFromLine(text string) []string {
 	return flatWords
 }
 
-func CountWords(bytes []byte) int {
+func countWords(bytes []byte) int {
 	var wordCount int
 
 	fileContent := string(bytes)
@@ -108,6 +108,7 @@ func main() {
 
 	file := os.Stdin
 	fileInfo, err := file.Stat()
+
 	if err != nil {
 		panic(err)
 	}
@@ -131,38 +132,38 @@ func main() {
 				}
 			}
 			fileName = os.Args[1]
-			fileBytes = FileToBytes(fileName)
+			fileBytes = fileToBytes(fileName)
 		} else {
 			for _, legalFlag := range legalFlags {
 				if os.Args[1] == legalFlag {
 					flag = os.Args[1]
 					fileName = os.Args[2]
-					fileBytes = FileToBytes(fileName)
+					fileBytes = fileToBytes(fileName)
 				}
 			}
 		}
 	}
 
 	if flag == "-c" {
-		fileByteTotal := CountBytes(fileBytes)
+		fileByteTotal := countBytes(fileBytes)
 		fmt.Println(fileByteTotal, fileName)
 
 	} else if flag == "-l" {
-		fileLines := CountLines(fileBytes)
+		fileLines := countLines(fileBytes)
 		fmt.Println(fileLines, fileName)
 
 	} else if flag == "-w" {
-		fileWords := CountWords(fileBytes)
+		fileWords := countWords(fileBytes)
 		fmt.Println(fileWords, fileName)
 
 	} else if flag == "-m" {
-		fileChars := CountChars(fileBytes)
+		fileChars := countChars(fileBytes)
 		fmt.Println(fileChars, fileName)
 
 	} else {
-		fileByteCount := CountBytes(fileBytes)
-		fileLines := CountLines(fileBytes)
-		fileWords := CountWords(fileBytes)
+		fileByteCount := countBytes(fileBytes)
+		fileLines := countLines(fileBytes)
+		fileWords := countWords(fileBytes)
 		fmt.Println(fileLines, fileWords, fileByteCount, fileName)
 	}
 }
