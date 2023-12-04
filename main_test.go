@@ -31,9 +31,9 @@ func TestByteCount(t *testing.T) {
 	byteCountExpected := 342190
 
 	if byteCount != byteCountExpected {
-		t.Errorf("FileToBytes(%s), FAILED. Expected %s got %d \n", testFile, fileBytes, len(fileBytes))
+		t.Errorf("countBytes(%s), FAILED. Expected %d got %d \n", testFile, byteCountExpected, byteCount)
 	} else {
-		t.Logf("FileToBytes(%s), PASSED.\n", testFile)
+		t.Logf("countBytes(%s), PASSED.\n", testFile)
 	}
 }
 
@@ -43,9 +43,9 @@ func TestLineCount(t *testing.T) {
 	lineCountExpected := 7145
 
 	if lineCount != lineCountExpected {
-		t.Errorf("CountLines(%s), FAILED. Expected %s got %d \n", testFile, fileBytes, len(fileBytes))
+		t.Errorf("countLines(%s), FAILED. Expected %d got %d \n", testFile, lineCountExpected, lineCount)
 	} else {
-		t.Logf("CountLines(%s), PASSED.\n", testFile)
+		t.Logf("countLines(%s), PASSED.\n", testFile)
 	}
 }
 
@@ -55,9 +55,9 @@ func TestWordCount(t *testing.T) {
 	wordCountExpected := 58164
 
 	if wordCount != wordCountExpected {
-		t.Errorf("CountWords(%s), FAILED. Expected %s got %d \n", testFile, fileBytes, len(fileBytes))
+		t.Errorf("countWords(%s), FAILED. Expected %d got %d \n", testFile, wordCountExpected, wordCount)
 	} else {
-		t.Logf("CountWords(%s), PASSED.\n", testFile)
+		t.Logf("countWords(%s), PASSED.\n", testFile)
 	}
 }
 
@@ -67,8 +67,8 @@ func TestCharCount(t *testing.T) {
 	charCountExpected := 339292
 
 	if charCount != charCountExpected {
-		t.Errorf("CountChars(%s), FAILED. Expected %s got %d \n", testFile, fileBytes, charCountExpected)
+		t.Errorf("countWords(%s), FAILED. Expected %d got %d \n", testFile, charCountExpected, charCount)
 	} else {
-		t.Logf("CountChars(%s), PASSED.\n", testFile)
+		t.Logf("countWords(%s), PASSED.\n", testFile)
 	}
 }
