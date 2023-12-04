@@ -100,4 +100,3 @@ func CountWords(bytes []byte) int {
 
 	return wordCount
 }
-
