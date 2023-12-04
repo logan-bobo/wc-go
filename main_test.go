@@ -1,4 +1,4 @@
-package utils
+package main
 
 import (
 	"os"
@@ -36,4 +36,3 @@ func TestByteCount(t *testing.T) {
 	}
 
 }
-
