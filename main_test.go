@@ -6,10 +6,11 @@ import (
 	"testing"
 )
 
+const testFile string = "test.txt"
+
 func TestFileToBytes(t *testing.T) {
-	fileName := "../../test.txt"
-	fileData := FileToBytes(fileName)
-	fileBytes, err := os.ReadFile(fileName)
+	fileData := FileToBytes(testFile)
+	fileBytes, err := os.ReadFile(testFile)
 
 	if err != nil {
 		t.Error("Can not find test data")
@@ -18,21 +19,32 @@ func TestFileToBytes(t *testing.T) {
 	equalBytes := reflect.DeepEqual(fileData, fileBytes)
 
 	if equalBytes != true {
-		t.Errorf("FileToBytes(%s), FAILED. Expected %s got %s \n", fileName, fileBytes, fileData)
+		t.Errorf("FileToBytes(%s), FAILED. Expected %s got %s \n", testFile, fileBytes, fileData)
 	} else {
-		t.Logf("FileToBytes(%s), PASSED.\n", fileName)
+		t.Logf("FileToBytes(%s), PASSED.\n", testFile)
 	}
 }
 
 func TestByteCount(t *testing.T) {
-	fileName := "../../test.txt"
-	fileBytes := FileToBytes(fileName)
+	fileBytes := FileToBytes(testFile)
 	byteCount := CountBytes(fileBytes)
+	byteCountExpected := 342190
 
-	if len(fileBytes) != byteCount {
-		t.Errorf("FileToBytes(%s), FAILED. Expected %s got %d \n", fileName, fileBytes, len(fileBytes))
+	if byteCount != byteCountExpected {
+		t.Errorf("FileToBytes(%s), FAILED. Expected %s got %d \n", testFile, fileBytes, len(fileBytes))
 	} else {
-		t.Logf("FileToBytes(%s), PASSED.\n", fileName)
+		t.Logf("FileToBytes(%s), PASSED.\n", testFile)
 	}
+}
 
+func TestLineCount(t *testing.T) {
+	fileBytes := FileToBytes(testFile)
+	lineCount := CountLines(fileBytes)
+	lineCountExpected := 7145
+
+	if lineCount != lineCountExpected {
+		t.Errorf("FileToBytes(%s), FAILED. Expected %s got %d \n", testFile, fileBytes, len(fileBytes))
+	} else {
+		t.Logf("FileToBytes(%s), PASSED.\n", testFile)
+	}
 }
