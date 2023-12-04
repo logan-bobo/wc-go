@@ -43,8 +43,20 @@ func TestLineCount(t *testing.T) {
 	lineCountExpected := 7145
 
 	if lineCount != lineCountExpected {
-		t.Errorf("FileToBytes(%s), FAILED. Expected %s got %d \n", testFile, fileBytes, len(fileBytes))
+		t.Errorf("CountLines(%s), FAILED. Expected %s got %d \n", testFile, fileBytes, len(fileBytes))
 	} else {
-		t.Logf("FileToBytes(%s), PASSED.\n", testFile)
+		t.Logf("CountLines(%s), PASSED.\n", testFile)
+	}
+}
+
+func TestWordCount(t *testing.T) {
+	fileBytes := FileToBytes(testFile)
+	wordCount := CountWords(fileBytes)
+	wordCountExpected := 58164
+
+	if wordCount != wordCountExpected {
+		t.Errorf("CountWords(%s), FAILED. Expected %s got %d \n", testFile, fileBytes, len(fileBytes))
+	} else {
+		t.Logf("CountWords(%s), PASSED.\n", testFile)
 	}
 }
