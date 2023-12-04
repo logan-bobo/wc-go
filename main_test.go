@@ -60,3 +60,15 @@ func TestWordCount(t *testing.T) {
 		t.Logf("CountWords(%s), PASSED.\n", testFile)
 	}
 }
+
+func TestCharCount(t *testing.T) {
+	fileBytes := FileToBytes(testFile)
+	charCount := CountChars(fileBytes)
+	charCountExpected := 339292
+
+	if charCount != charCountExpected {
+		t.Errorf("CountChars(%s), FAILED. Expected %s got %d \n", testFile, fileBytes, charCountExpected)
+	} else {
+		t.Logf("CountChars(%s), PASSED.\n", testFile)
+	}
+}
