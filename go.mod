@@ -1,3 +1,3 @@
 module github.com/logan-bobo/wc-go
 
-go 1.21.2
+go 1.22.0
