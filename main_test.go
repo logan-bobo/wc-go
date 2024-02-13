@@ -67,8 +67,8 @@ func TestCharCount(t *testing.T) {
 	charCountExpected := 339292
 
 	if charCount != charCountExpected {
-		t.Errorf("countWords(%s), FAILED. Expected %d got %d \n", testFile, charCountExpected, charCount)
+		t.Errorf("countChars(%s), FAILED. Expected %d got %d \n", testFile, charCountExpected, charCount)
 	} else {
-		t.Logf("countWords(%s), PASSED.\n", testFile)
+		t.Logf("countChars(%s), PASSED.\n", testFile)
 	}
 }

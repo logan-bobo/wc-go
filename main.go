@@ -38,7 +38,7 @@ func countChars(bytes []byte) int {
 			charCount++
 		}
 
-		// New line counts as one cah so add it here
+		// New line counts so add it
 		charCount++
 	}
 
@@ -127,8 +127,14 @@ func main() {
 	} else {
 		if len(os.Args) < 3 {
 			for _, legalFlag := range legalFlags {
+				if len(os.Args) < 2 {
+					fmt.Println("No File provided")
+					os.Exit(1)
+				}
+
 				if os.Args[1] == legalFlag {
-					panic("Flag set with no filename")
+					fmt.Println("Flag set with no filename")
+					os.Exit(1)
 				}
 			}
 			fileName = os.Args[1]
