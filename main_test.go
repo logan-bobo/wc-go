@@ -72,3 +72,18 @@ func TestCharCount(t *testing.T) {
 		t.Logf("countChars(%s), PASSED.\n", testFile)
 	}
 }
+
+func TestStripTabandSpaceFromLine(t *testing.T) {
+	line := "hello	world.	today."
+	outputSlice := []string{"hello", "world.", "today."}
+
+	stripLine := stripTabAndSpaceFromLine(line)
+
+	isEqual := reflect.DeepEqual(outputSlice, stripLine)
+
+	if isEqual != true {
+		t.Errorf("stripTabAndSpaceFromLine(%s), FAILED. Expected %v got %v \n", line, outputSlice, stripLine)
+	} else {
+		t.Logf("stripTabAndSpaceFromLine(%s), PASSED.\n", line)
+	}
+}

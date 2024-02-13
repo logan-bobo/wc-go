@@ -74,7 +74,6 @@ func stripTabAndSpaceFromLine(text string) []string {
 			flatWords = append(flatWords, word)
 		}
 	}
-
 	return flatWords
 }
 
