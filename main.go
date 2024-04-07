@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"io"
 	"os"
@@ -74,6 +75,7 @@ func stripTabAndSpaceFromLine(text string) []string {
 			flatWords = append(flatWords, word)
 		}
 	}
+
 	return flatWords
 }
 
@@ -99,73 +101,52 @@ func countWords(bytes []byte) int {
 }
 
 func main() {
-	var fileName string
 	var fileBytes []byte
-	var flag string
+	var fileName string
 
-	legalFlags := [4]string{"-c", "-l", "-w", "-m"}
+	bytesFlag := flag.Bool("c", false, "Count the bytes in a file/stdin")
+	linesFlag := flag.Bool("l", false, "Count the number of lines in a file/stdin")
+	wordsFlag := flag.Bool("w", false, "Count the number of words in a file/stdin")
+	charsFlag := flag.Bool("m", false, "Count the number of characters in a file/stdin")
+	flag.Parse()
 
-	file := os.Stdin
-	fileInfo, err := file.Stat()
+	args := flag.Args()
 
-	if err != nil {
-		panic(err)
-	}
-
-	size := fileInfo.Size()
-	if size > 0 {
-		fileBytes, _ = io.ReadAll(os.Stdin)
-		if len(os.Args) > 1 {
-			for _, legalFlag := range legalFlags {
-				if os.Args[1] == legalFlag {
-					flag = os.Args[1]
-				}
-			}
-		}
+	if len(args) > 0 {
+		fileName = args[0]
+		fileBytes = fileToBytes(fileName)
 
 	} else {
-		if len(os.Args) < 3 {
-			for _, legalFlag := range legalFlags {
-				if len(os.Args) < 2 {
-					fmt.Println("No File provided")
-					os.Exit(1)
-				}
+		stdin, err := io.ReadAll(os.Stdin)
 
-				if os.Args[1] == legalFlag {
-					fmt.Println("Flag set with no filename")
-					os.Exit(1)
-				}
-			}
-			fileName = os.Args[1]
-			fileBytes = fileToBytes(fileName)
-		} else {
-			for _, legalFlag := range legalFlags {
-				if os.Args[1] == legalFlag {
-					flag = os.Args[1]
-					fileName = os.Args[2]
-					fileBytes = fileToBytes(fileName)
-				}
-			}
+		if err != nil {
+			panic(err)
 		}
+
+		fileBytes = stdin
 	}
 
-	if flag == "-c" {
+	if *bytesFlag {
 		fileByteTotal := countBytes(fileBytes)
 		fmt.Println(fileByteTotal, fileName)
+	}
 
-	} else if flag == "-l" {
+	if *linesFlag {
 		fileLines := countLines(fileBytes)
 		fmt.Println(fileLines, fileName)
+	}
 
-	} else if flag == "-w" {
+	if *wordsFlag {
 		fileWords := countWords(fileBytes)
 		fmt.Println(fileWords, fileName)
+	}
 
-	} else if flag == "-m" {
+	if *charsFlag {
 		fileChars := countChars(fileBytes)
 		fmt.Println(fileChars, fileName)
+	}
 
-	} else {
+	if !*bytesFlag && !*linesFlag && !*wordsFlag && !*charsFlag {
 		fileByteCount := countBytes(fileBytes)
 		fileLines := countLines(fileBytes)
 		fileWords := countWords(fileBytes)
