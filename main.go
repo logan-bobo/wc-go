@@ -11,9 +11,9 @@ import (
 func countLines(bytes []byte) int {
 	var lineCount int
 
-	for _, byteDecimal := range bytes {
+	for _, byte := range bytes {
 		// The decimal representation of a UTF-8 newline is 10.
-		if byteDecimal == 10 {
+		if byte == 10 {
 			lineCount++
 		}
 	}
