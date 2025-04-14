@@ -31,11 +31,11 @@ func countChars(bytes []byte) int {
 	var charCount int
 
 	fileContent := string(bytes)
-	lines := strings.Split(fileContent, "\n")
+	lines := strings.SplitSeq(fileContent, "\n")
 
-	for _, line := range lines {
-		arrLine := strings.Split(line, "")
-		for i := 0; i < len(arrLine); i++ {
+	for line := range lines {
+		arrLine := strings.SplitSeq(line, "")
+		for range arrLine {
 			charCount++
 		}
 
@@ -62,13 +62,13 @@ func fileToBytes(fileName string) []byte {
 func stripTabAndSpaceFromLine(text string) []string {
 	var flatWords []string
 
-	words := strings.Split(text, " ")
-	for _, word := range words {
+	words := strings.SplitSeq(text, " ")
+	for word := range words {
 		tabInWord := strings.Contains(word, "	")
 		if tabInWord {
-			splitWords := strings.Split(word, "	")
+			splitWords := strings.SplitSeq(word, "	")
 
-			for _, splitWord := range splitWords {
+			for splitWord := range splitWords {
 				flatWords = append(flatWords, splitWord)
 			}
 		} else {
@@ -83,9 +83,9 @@ func countWords(bytes []byte) int {
 	var wordCount int
 
 	fileContent := string(bytes)
-	text := strings.Split(fileContent, "\n")
+	text := strings.SplitSeq(fileContent, "\n")
 
-	for _, line := range text {
+	for line := range text {
 		line = strings.TrimSpace(line)
 
 		if line != "" {
