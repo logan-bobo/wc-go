@@ -8,25 +8,8 @@ import (
 
 const testFile string = "test.txt"
 
-func TestFileToBytes(t *testing.T) {
-	fileData := fileToBytes(testFile)
-	fileBytes, err := os.ReadFile(testFile)
-
-	if err != nil {
-		t.Error("Can not find test data")
-	}
-
-	equalBytes := reflect.DeepEqual(fileData, fileBytes)
-
-	if equalBytes != true {
-		t.Errorf("FileToBytes(%s), FAILED. Expected %s got %s \n", testFile, fileBytes, fileData)
-	} else {
-		t.Logf("FileToBytes(%s), PASSED.\n", testFile)
-	}
-}
-
 func TestByteCount(t *testing.T) {
-	fileBytes := fileToBytes(testFile)
+	fileBytes, _ := os.ReadFile(testFile)
 	byteCount := countBytes(fileBytes)
 	byteCountExpected := 342190
 
@@ -38,7 +21,7 @@ func TestByteCount(t *testing.T) {
 }
 
 func TestLineCount(t *testing.T) {
-	fileBytes := fileToBytes(testFile)
+	fileBytes, _ := os.ReadFile(testFile)
 	lineCount := countLines(fileBytes)
 	lineCountExpected := 7145
 
@@ -50,7 +33,7 @@ func TestLineCount(t *testing.T) {
 }
 
 func TestWordCount(t *testing.T) {
-	fileBytes := fileToBytes(testFile)
+	fileBytes, _ := os.ReadFile(testFile)
 	wordCount := countWords(fileBytes)
 	wordCountExpected := 58164
 
@@ -62,7 +45,7 @@ func TestWordCount(t *testing.T) {
 }
 
 func TestCharCount(t *testing.T) {
-	fileBytes := fileToBytes(testFile)
+	fileBytes, _ := os.ReadFile(testFile)
 	charCount := countChars(fileBytes)
 	charCountExpected := 339292
 
