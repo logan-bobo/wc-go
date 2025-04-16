@@ -1,12 +1,36 @@
 package main
 
 import (
+	"bufio"
 	"flag"
 	"fmt"
 	"io"
 	"os"
 	"strings"
 )
+
+type metadata struct {
+	bytes int
+	lines int
+	words int
+	chars int
+}
+
+func newMetadata() *metadata {
+	return &metadata{}
+}
+
+func (m *metadata) populate(bytes []byte) {
+	byteCount := countBytes(bytes)
+	lineCount := countLines(bytes)
+	wordCount := countWords(bytes)
+	charCount := countWords(bytes)
+
+	m.bytes += byteCount
+	m.lines += lineCount
+	m.words += wordCount
+	m.chars += charCount
+}
 
 func countLines(bytes []byte) int {
 	var lineCount int
@@ -31,11 +55,11 @@ func countChars(bytes []byte) int {
 	var charCount int
 
 	fileContent := string(bytes)
-	lines := strings.Split(fileContent, "\n")
+	lines := strings.SplitSeq(fileContent, "\n")
 
-	for _, line := range lines {
-		arrLine := strings.Split(line, "")
-		for i := 0; i < len(arrLine); i++ {
+	for line := range lines {
+		arrLine := strings.SplitSeq(line, "")
+		for range arrLine {
 			charCount++
 		}
 
@@ -49,26 +73,16 @@ func countChars(bytes []byte) int {
 	return charCount
 }
 
-func fileToBytes(fileName string) []byte {
-	bytes, err := os.ReadFile(fileName)
-
-	if err != nil {
-		panic(err)
-	}
-
-	return bytes
-}
-
 func stripTabAndSpaceFromLine(text string) []string {
 	var flatWords []string
 
-	words := strings.Split(text, " ")
-	for _, word := range words {
+	words := strings.SplitSeq(text, " ")
+	for word := range words {
 		tabInWord := strings.Contains(word, "	")
 		if tabInWord {
-			splitWords := strings.Split(word, "	")
+			splitWords := strings.SplitSeq(word, "	")
 
-			for _, splitWord := range splitWords {
+			for splitWord := range splitWords {
 				flatWords = append(flatWords, splitWord)
 			}
 		} else {
@@ -83,9 +97,9 @@ func countWords(bytes []byte) int {
 	var wordCount int
 
 	fileContent := string(bytes)
-	text := strings.Split(fileContent, "\n")
+	text := strings.SplitSeq(fileContent, "\n")
 
-	for _, line := range text {
+	for line := range text {
 		line = strings.TrimSpace(line)
 
 		if line != "" {
@@ -100,9 +114,26 @@ func countWords(bytes []byte) int {
 	return wordCount
 }
 
+func populateMetadataFromReader(reader bufio.Reader, fileMetadata *metadata) {
+	for {
+		line, err := reader.ReadBytes('\n')
+
+		if err != nil {
+			if err == io.EOF {
+				break
+			}
+			fmt.Fprintln(os.Stderr, err)
+			os.Exit(1)
+		}
+
+		fileMetadata.populate(line)
+	}
+}
+
 func main() {
-	var fileBytes []byte
 	var fileName string
+
+	fileMetadata := newMetadata()
 
 	bytesFlag := flag.Bool("c", false, "Count the bytes in a file/stdin")
 	linesFlag := flag.Bool("l", false, "Count the number of lines in a file/stdin")
@@ -114,42 +145,38 @@ func main() {
 
 	if len(args) > 0 {
 		fileName = args[0]
-		fileBytes = fileToBytes(fileName)
+		file, err := os.Open(fileName)
+		if err != nil {
+			fmt.Fprintln(os.Stderr, err.Error())
+			os.Exit(1)
+		}
+		defer file.Close()
+
+		reader := bufio.NewReader(file)
+		populateMetadataFromReader(*reader, fileMetadata)
 
 	} else {
-		stdin, err := io.ReadAll(os.Stdin)
-
-		if err != nil {
-			panic(err)
-		}
-
-		fileBytes = stdin
+		reader := bufio.NewReader(os.Stdin)
+		populateMetadataFromReader(*reader, fileMetadata)
 	}
 
 	if *bytesFlag {
-		fileByteTotal := countBytes(fileBytes)
-		fmt.Println(fileByteTotal, fileName)
+		fmt.Println(fileMetadata.bytes, fileName)
 	}
 
 	if *linesFlag {
-		fileLines := countLines(fileBytes)
-		fmt.Println(fileLines, fileName)
+		fmt.Println(fileMetadata.lines, fileName)
 	}
 
 	if *wordsFlag {
-		fileWords := countWords(fileBytes)
-		fmt.Println(fileWords, fileName)
+		fmt.Println(fileMetadata.words, fileName)
 	}
 
 	if *charsFlag {
-		fileChars := countChars(fileBytes)
-		fmt.Println(fileChars, fileName)
+		fmt.Println(fileMetadata.chars, fileName)
 	}
 
 	if !*bytesFlag && !*linesFlag && !*wordsFlag && !*charsFlag {
-		fileByteCount := countBytes(fileBytes)
-		fileLines := countLines(fileBytes)
-		fileWords := countWords(fileBytes)
-		fmt.Println(fileLines, fileWords, fileByteCount, fileName)
+		fmt.Println(fileMetadata.lines, fileMetadata.words, fileMetadata.bytes, fileName)
 	}
 }
